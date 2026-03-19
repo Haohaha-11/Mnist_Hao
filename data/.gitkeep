@@ -1,0 +1,7 @@
+# 将 MNIST 数据集下载并解压到此目录
+# 目录结构应为：
+#   data/MNIST/raw/train-images-idx3-ubyte
+#   data/MNIST/raw/train-labels-idx1-ubyte
+#   data/MNIST/raw/t10k-images-idx3-ubyte
+#   data/MNIST/raw/t10k-labels-idx1-ubyte
+# 下载地址见 README.md

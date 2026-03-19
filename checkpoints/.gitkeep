@@ -1,0 +1,3 @@
+# 模型权重保存在此目录
+# best_model.pt  - 验证集最优模型
+# last_model.pt  - 最后一个 epoch 的模型
