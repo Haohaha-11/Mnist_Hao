@@ -10,10 +10,13 @@
 Mnist_Hao/
 ├── data/                  # 本地数据集目录（需手动下载，见下方说明）
 ├── checkpoints/           # 模型权重保存目录
+├── user_images/           # 放入自定义图像，供 test_demo.py 推理
 ├── model.py               # CNN 模型定义
 ├── dataset.py             # 数据加载与划分（训练/验证/测试）
 ├── train.py               # 训练 + 验证
 ├── test.py                # 测试集评估
+├── test_demo.py           # 对 user_images/ 中的图像进行推理
+├── download_data.py       # 数据集下载辅助脚本
 ├── requirements.txt       # 依赖列表
 └── README.md
 ```
@@ -146,6 +149,30 @@ python test.py --model-path checkpoints/last_model.pt
 | `--model-path` | `checkpoints/best_model.pt` | 模型权重路径 |
 | `--test-batch-size` | 1000 | 测试 batch size |
 | `--no-accel` | — | 禁用 GPU |
+
+---
+
+## 自定义图像推理（test_demo.py）
+
+将自己的手写数字图像放入 `user_images/` 文件夹，然后运行：
+
+```bash
+python test_demo.py
+```
+
+脚本会自动对文件夹内所有图像逐一推理并打印预测结果。
+
+### 参数说明
+
+| 参数 | 默认值 | 说明 |
+|------|--------|------|
+| `--model-path` | `checkpoints/best_model.pt` | 模型权重路径 |
+| `--image-dir` | `user_images` | 图像文件夹路径 |
+| `--no-accel` | — | 禁用 GPU，强制 CPU |
+
+支持格式：`.png` `.jpg` `.jpeg` `.bmp` `.gif` `.tiff`
+
+> 图像会自动转为灰度并 resize 到 28×28，预处理与训练时保持一致。
 
 ---
 
