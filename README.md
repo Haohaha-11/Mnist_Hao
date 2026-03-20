@@ -11,6 +11,7 @@ Mnist_Hao/
 ├── data/                  # 本地数据集目录（需手动下载，见下方说明）
 ├── checkpoints/           # 模型权重保存目录
 ├── user_images/           # 放入自定义图像，供 test_demo.py 推理
+├── Mnist_Original/        # PyTorch 官方原版 MNIST 示例（参考对比用）
 ├── model.py               # CNN 模型定义
 ├── dataset.py             # 数据加载与划分（训练/验证/测试）
 ├── train.py               # 训练 + 验证

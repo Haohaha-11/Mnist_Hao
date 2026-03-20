@@ -1,0 +1,4 @@
+
+# 一般这里会放你需要安装的包
+torch
+torchvision

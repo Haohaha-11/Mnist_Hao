@@ -81,7 +81,7 @@ def main():
     parser.add_argument("--val-ratio",    type=float, default=0.1,  help="验证集比例 (默认 0.1)")
     parser.add_argument("--seed",         type=int,   default=1,    help="随机种子 (默认 1)")
     parser.add_argument("--log-interval", type=int,   default=10,   help="日志打印间隔 batch 数")
-    parser.add_argument("--no-accel",     action="store_true",      help="禁用 GPU，强制 CPU")
+    parser.add_argument("--no-accel",     action="store_true",      help="禁用 GPU, 强制 CPU")
     parser.add_argument("--dry-run",      action="store_true",      help="单步快速验证流程")
     parser.add_argument("--save-model",   action="store_true",      help="保存最优模型权重")
     args = parser.parse_args()
