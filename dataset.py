@@ -6,6 +6,10 @@ dataset.py - MNIST 数据集加载与划分
   - 训练集 60000 张，从中划分出 val_ratio 比例作为验证集
   - 测试集 10000 张，独立使用
 """
+# 解决库冲突（AI给的解决方案）
+import os
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+
 
 import torch
 from torch.utils.data import DataLoader, random_split
@@ -29,7 +33,7 @@ def get_dataloaders(
     test_batch_size: int = 1000,
     val_ratio: float = 0.1,
     seed: int = 1,
-    num_workers: int = 2,
+    num_workers: int = 0,
     pin_memory: bool = False,
 ):
     """

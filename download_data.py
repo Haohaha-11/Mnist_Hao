@@ -4,6 +4,10 @@ download_data.py - 自动下载 MNIST 数据集到 ./data 目录
 用法：
     python download_data.py
 """
+# 解决库冲突（AI给的解决方案）
+import os
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+
 
 from torchvision import datasets, transforms
 

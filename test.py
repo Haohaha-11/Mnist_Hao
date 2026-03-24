@@ -5,11 +5,14 @@ test.py - 在测试集上评估模型
     python test.py --model-path checkpoints/best_model.pt
 """
 
+import os
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+
 import argparse
 import torch
 import torch.nn.functional as F
 
-from model import Net
+from model_ours import NetOurs
 from dataset import get_dataloaders
 
 
@@ -33,7 +36,7 @@ def test(model, device, test_loader):
 
 def main():
     parser = argparse.ArgumentParser(description="MNIST 测试")
-    parser.add_argument("--model-path",     type=str, default="checkpoints/best_model.pt", help="模型权重路径")
+    parser.add_argument("--model-path",     type=str, default="checkpoints/best_model_ours.pt", help="模型权重路径")
     parser.add_argument("--test-batch-size", type=int, default=1000, help="测试 batch size (默认 1000)")
     parser.add_argument("--seed",           type=int, default=1,    help="随机种子 (默认 1)")
     parser.add_argument("--no-accel",       action="store_true",    help="禁用 GPU，强制 CPU")
@@ -51,7 +54,7 @@ def main():
         seed=args.seed,
     )
 
-    model = Net().to(device)
+    model = NetOurs().to(device)
     model.load_state_dict(torch.load(args.model_path, map_location=device))
     print(f"已加载模型权重：{args.model_path}")
 
