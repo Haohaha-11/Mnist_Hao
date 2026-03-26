@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+
+.vscode/
+.idea/
+
+logs/
+
+data/MNIST/
+
+checkpoints/*
+!checkpoints/.gitkeep
+
+Comic-Sans-MS-Regular-2.ttf

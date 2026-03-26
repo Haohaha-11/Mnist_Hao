@@ -1,8 +1,8 @@
 """
-train.py - 训练 + 验证（Net / model.py）
+train_ours.py - 训练 + 验证（NetOurs / model_ours.py）
 
 用法：
-    python train.py [选项]
+    python train_ours.py [选项]
 
 常用选项：
     --epochs 30
@@ -12,8 +12,8 @@ train.py - 训练 + 验证（Net / model.py）
     --no-accel              # 强制使用 CPU
 
 模型自动保存到 checkpoints/：
-    best_model.pt   ← val loss 最小的那轮
-    last_model.pt   ← 最后一轮
+    best_model_ours.pt   ← val loss 最小的那轮
+    last_model_ours.pt   ← 最后一轮
 """
 import os
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
@@ -28,7 +28,7 @@ from torch.optim.lr_scheduler import StepLR
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 
-from model import Net
+from model_ours import NetOurs
 from dataset import get_dataloaders
 
 
@@ -144,9 +144,9 @@ def plot_metrics(epochs_list, train_losses, val_losses, train_accs, val_accs, sa
              marker="o", markersize=4, label="Train Acc")
     ax2.plot(epochs_list, val_accs,   color="#FF9800", linewidth=2.2,
              marker="s", markersize=4, label="Val Acc")
-    ax2.set_title("Accuracy Curve", fontproperties=fp_title, pad=12)
-    ax2.set_xlabel("Epoch",          fontproperties=fp_label)
-    ax2.set_ylabel("Accuracy (%)",   fontproperties=fp_label)
+    ax2.set_title("Accuracy Curve",  fontproperties=fp_title, pad=12)
+    ax2.set_xlabel("Epoch",           fontproperties=fp_label)
+    ax2.set_ylabel("Accuracy (%)",    fontproperties=fp_label)
     ax2.set_ylim(0, 105)
     ax2.grid(True, linestyle="--", alpha=0.5)
     ax2.spines[["top", "right"]].set_visible(False)
@@ -154,7 +154,7 @@ def plot_metrics(epochs_list, train_losses, val_losses, train_accs, val_accs, sa
         lbl.set_fontproperties(fp_tick)
     ax2.legend(prop=fp_legend, framealpha=0.8)
 
-    plt.suptitle("Net  —  Training Metrics", fontproperties=_font(17), y=1.02)
+    plt.suptitle("NetOurs  —  Training Metrics", fontproperties=_font(17), y=1.02)
     plt.tight_layout()
     plt.savefig(save_path, dpi=150, bbox_inches="tight")
     plt.close()
@@ -165,7 +165,7 @@ def plot_metrics(epochs_list, train_losses, val_losses, train_accs, val_accs, sa
 # 主流程
 # ──────────────────────────────────────────────
 def main():
-    parser = argparse.ArgumentParser(description="MNIST 训练 + 验证（Net）")
+    parser = argparse.ArgumentParser(description="MNIST 训练 + 验证（NetOurs）")
     parser.add_argument("--batch-size",     type=int,   default=64,   help="训练 batch size (默认 64)")
     parser.add_argument("--val-batch-size", type=int,   default=1000, help="验证 batch size (默认 1000)")
     parser.add_argument("--epochs",         type=int,   default=30,   help="训练轮数 (默认 30)")
@@ -195,18 +195,18 @@ def main():
         pin_memory=pin_memory,
     )
 
-    model = Net().to(device)
+    model = NetOurs().to(device)
     optimizer = optim.Adadelta(model.parameters(), lr=args.lr)
     scheduler = StepLR(optimizer, step_size=1, gamma=args.gamma)
 
     os.makedirs("checkpoints", exist_ok=True)
 
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    log_path = f"checkpoints/train_log_{timestamp}.txt"
+    log_path = f"checkpoints/train_ours_log_{timestamp}.txt"
     tee = Tee(log_path)
     print(f"日志保存至：{log_path}")
     print(f"使用设备：{device}")
-    print(f"模型：Net | Epochs: {args.epochs} | LR: {args.lr} | Batch: {args.batch_size}")
+    print(f"模型：NetOurs | Epochs: {args.epochs} | LR: {args.lr} | Batch: {args.batch_size}")
     print("-" * 75)
 
     best_val_loss = float("inf")
@@ -227,22 +227,22 @@ def main():
         print(f"Epoch {epoch:>3} | Train Loss: {train_loss:.6f} | Train Acc: {train_acc:.2f}% "
               f"| Val Loss: {val_loss:.6f} | Val Acc: {val_acc:.2f}%")
 
-        torch.save(model.state_dict(), "checkpoints/last_model_325.pt")
+        torch.save(model.state_dict(), "checkpoints/last_model_ours_325.pt")
 
         if val_loss < best_val_loss:
             best_val_loss = val_loss
-            torch.save(model.state_dict(), "checkpoints/best_model_325.pt")
+            torch.save(model.state_dict(), "checkpoints/best_model_ours_325.pt")
             print(f"  -> 保存最优模型（Epoch {epoch}, Val Loss {best_val_loss:.6f}）")
 
         if args.dry_run:
             break
 
     print(f"\n训练完成！模型已保存到 checkpoints/")
-    print(f"  best_model_325.pt : Val Loss 最小 ({best_val_loss:.6f})")
-    print(f"  last_model_325.pt : 最后一轮 (Epoch {args.epochs})")
+    print(f"  best_model_ours_325.pt : Val Loss 最小 ({best_val_loss:.6f})")
+    print(f"  last_model_ours_325.pt : 最后一轮 (Epoch {args.epochs})")
 
     plot_metrics(epochs_list, train_losses, val_losses, train_accs, val_accs,
-                 "checkpoints/training_curve_net.png")
+                 "checkpoints/training_curve_ours.png")
     tee.close()
 
 
